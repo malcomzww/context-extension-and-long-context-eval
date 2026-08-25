@@ -39,6 +39,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from context_extension_and_long_context_eval import multihop, niah  # noqa: E402
+from context_extension_and_long_context_eval.io import write_lf  # noqa: E402
 from context_extension_and_long_context_eval.runner import (  # noqa: E402
     DEFAULT_MODEL,
     Runner,
@@ -144,7 +145,7 @@ def main() -> int:
         },
         "rows": portable,
     }
-    CACHE.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    write_lf(CACHE, json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(f"wrote {CACHE}")
 
     lines = [
@@ -162,7 +163,7 @@ def main() -> int:
         f"| {r['task']} | {r['target_tokens']} | {r['actual_tokens']} | {r['latency_s']:.2f} |"
         for r in rows
     ]
-    RAW.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    write_lf(RAW, "\n".join(lines) + "\n")
     print(f"wrote {RAW}")
     return 0
 

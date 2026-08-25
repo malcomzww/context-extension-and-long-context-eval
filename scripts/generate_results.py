@@ -40,6 +40,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
+from context_extension_and_long_context_eval.io import write_lf  # noqa: E402
 from context_extension_and_long_context_eval.scaling import (  # noqa: E402
     METHODS,
     high_frequency_preservation,
@@ -95,6 +96,8 @@ def wilson(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
 
 def fmt_pct(x: float) -> str:
     return f"{100 * x:.0f}%"
+
+
 
 
 # --- part 1: the scaling analysis -------------------------------------
@@ -251,7 +254,7 @@ def write_scaling() -> None:
     add("by a closed form, so it cannot join a table of exact algebra.")
     add("")
 
-    SCALING_OUT.write_text("\n".join(lines), encoding="utf-8")
+    write_lf(SCALING_OUT, "\n".join(lines))
     print(f"wrote {SCALING_OUT.relative_to(ROOT)}")
 
 
@@ -442,7 +445,7 @@ def write_context() -> None:
     add("  than their real-world equivalents in the same direction.")
     add("")
 
-    CONTEXT_OUT.write_text("\n".join(lines), encoding="utf-8")
+    write_lf(CONTEXT_OUT, "\n".join(lines))
     print(f"wrote {CONTEXT_OUT.relative_to(ROOT)}")
 
 
