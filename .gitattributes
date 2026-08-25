@@ -1,0 +1,5 @@
+# The CI drift gate byte-compares regenerated results against the committed
+# copy. Without this, a results file written on Windows commits with CRLF and
+# the Linux runner regenerates it with LF -- every line differs and the gate
+# fails for a reason that has nothing to do with the numbers.
+* text=auto eol=lf
