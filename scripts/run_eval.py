@@ -100,6 +100,11 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--threads", type=int, default=24)
+    ap.add_argument(
+        "--resume",
+        action="store_true",
+        help="reuse tiers already present in results/eval-cache.json",
+    )
     args = ap.parse_args()
 
     print(f"loading {args.model} ...", flush=True)
@@ -109,7 +114,30 @@ def main() -> int:
 
     rows: list[dict] = []
     done: list[int] = []
+
+    # Resume. A tier that already has rows in the cache is not re-run: on a
+    # shared machine the long tiers get killed (OOM, or the scheduler), and
+    # without this a single kill during the 8k tier costs the whole sweep
+    # again. Rows are reused verbatim rather than re-measured because greedy
+    # decoding makes them reproducible -- re-running would produce identical
+    # numbers at considerable cost.
+    if args.resume and CACHE.exists():
+        prev = json.loads(CACHE.read_text(encoding="utf-8"))
+        if prev.get("model", {}).get("name") != info.name:
+            raise SystemExit(
+                f"cache was written for {prev.get('model', {}).get('name')!r}, "
+                f"refusing to mix it with {info.name!r} -- delete {CACHE.name} first"
+            )
+        for r in prev["rows"]:
+            r.setdefault("latency_s", 0.0)      # not committed; absent on resume
+        rows = list(prev["rows"])
+        done = list(prev["config"]["lengths"])
+        print(f"resuming: {len(rows)} rows already measured for {done}", flush=True)
+
     for target in LENGTHS:
+        if target in done:
+            print(f"[{target}] already in cache, skipping", flush=True)
+            continue
         # Calibrate each task separately: the two prompts have different
         # boilerplate and different planted lines, so equal filler counts
         # would give unequal token lengths and the curves would no longer be
@@ -164,6 +192,7 @@ def main() -> int:
 
         # Checkpoint. A kill during a later tier now costs only that tier.
         done.append(target)
+        done.sort()
         save_cache(info, rows, done)
         print(f"[{target}] checkpointed {len(rows)} rows", flush=True)
 
