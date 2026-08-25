@@ -78,7 +78,7 @@ length*.
 So what this sweep establishes is the narrower claim: **NIAH and two-hop
 retrieval measure different things, and a passing NIAH score licenses no
 conclusion about composition.** It does *not* establish that this model's
-positional encoding degrades somewhere between 1k and 8k. Distinguishing
+positional encoding degrades anywhere inside the range measured. Distinguishing
 those two needs a model that clears the two-hop bar at short context, so that
 the length where it stops clearing it is measurable. This one does not, and no
 amount of sweeping fixes that. The results file says so, and
