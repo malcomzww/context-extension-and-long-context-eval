@@ -9,7 +9,7 @@ requires-python = ">=3.11"
 dependencies = ["numpy>=1.26"]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6"]
+dev = ["pytest>=8", "ruff==0.14.3"]
 # Only scripts/run_eval.py needs these, and only when re-running inference.
 # Kept out of `dev` so the CI drift gate does not pull a torch wheel.
 eval = ["torch>=2.2", "transformers>=4.40"]
