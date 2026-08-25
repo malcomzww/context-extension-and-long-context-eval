@@ -130,7 +130,7 @@ and that the other methods leave it at exactly 1.0.
 
 ```bash
 uv sync --extra dev          # numpy + pytest + ruff. No torch.
-uv run pytest -q             # 93 tests
+uv run pytest -q             # 103 tests
 uv run python scripts/generate_results.py
 ```
 
