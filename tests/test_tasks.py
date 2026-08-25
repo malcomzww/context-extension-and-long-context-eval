@@ -156,6 +156,50 @@ def test_distractors_provide_complete_competing_chains():
     assert badge == n + 1
 
 
+def test_the_answer_number_appears_nowhere_but_the_second_hop():
+    """No route to the answer that skips hop two.
+
+    Stronger than badge uniqueness: the four-digit string must not appear
+    anywhere else in the prompt at all, filler included. If it did, the scorer
+    would credit a model that never composed anything, and the floor of the
+    multi-hop task would not be 0%.
+    """
+    import re
+
+    for seed in range(60):
+        s = multihop.build_sample(n_filler=400, n_distractors=4, seed=seed)
+        rest = s.prompt.replace(multihop.badge_line(s.bridge, s.answer), "")
+        assert not re.search(rf"(?<!\d){s.answer}(?!\d)", rest)
+
+
+def test_the_bridge_entity_appears_exactly_twice():
+    """Once in each hop, and nowhere else.
+
+    A third mention would give the model a second route to the badge and
+    weaken the two-hop structure without it being visible in any score.
+    """
+    for seed in range(60):
+        s = multihop.build_sample(n_filler=200, n_distractors=6, seed=seed)
+        assert s.prompt.count(f"Agent {s.bridge}") == 2
+
+
+def test_all_badge_numbers_in_the_document_are_distinct():
+    """Distractor badges never collide with each other either.
+
+    Two agents sharing a badge would make the document internally
+    inconsistent, which is a different task from the one being measured.
+    """
+    for seed in range(60):
+        s = multihop.build_sample(n_filler=100, n_distractors=6, seed=seed)
+        body = s.prompt.split("--- DOCUMENT ---")[1]
+        badges = [
+            ln.split("badge number ")[1].rstrip(".")
+            for ln in body.split("\n")
+            if "badge number " in ln
+        ]
+        assert len(badges) == len(set(badges))
+
+
 def test_the_two_hops_are_separated_in_the_document():
     """Hops at 0.25 and 0.75 must actually land far apart.
 
