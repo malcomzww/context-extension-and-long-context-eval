@@ -3,10 +3,16 @@ name = "context-extension-and-long-context-eval"
 version = "0.1.0"
 description = "RoPE scaling by hand - position interpolation, NTK-aware, YaRN - evaluated with something better than needle-in-a-haystack."
 requires-python = ">=3.11"
-dependencies = []
+# NumPy only. The RoPE and scaling analysis, both task generators, the test
+# suite and scripts/generate_results.py all run on this alone -- which is what
+# lets CI regenerate results/ without downloading a model.
+dependencies = ["numpy>=1.26"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.6"]
+# Only scripts/run_eval.py needs these, and only when re-running inference.
+# Kept out of `dev` so the CI drift gate does not pull a torch wheel.
+eval = ["torch>=2.2", "transformers>=4.40"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
