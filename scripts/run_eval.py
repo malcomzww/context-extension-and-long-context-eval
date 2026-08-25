@@ -61,6 +61,41 @@ N_DISTRACTORS = 4
 SEED = 0
 
 
+def save_cache(info, rows: list[dict], lengths_done: list[int]) -> None:
+    """Write the committed artifact. Called after every length, not just at the end.
+
+    The first version of this script wrote the cache once, after the whole
+    sweep. An 8k tier interrupted near the end therefore destroyed four
+    completed tiers of work, and the only surviving record was a truncated
+    stdout log -- from which partial data could have been reconstructed by
+    hand, which is exactly how a results file ends up with numbers nobody can
+    regenerate. Checkpointing per length means the artifact is always a
+    complete description of the lengths it claims to cover.
+
+    ``lengths_done`` is recorded rather than ``LENGTHS`` so the config never
+    advertises a length whose rows are absent.
+    """
+    RESULTS.mkdir(exist_ok=True)
+    # Committed artifact: scores only, latency stripped.
+    portable = [{k: v for k, v in r.items() if k != "latency_s"} for r in rows]
+    payload = {
+        "schema": 1,
+        "model": asdict(info),
+        "config": {
+            "lengths": lengths_done,
+            "depths": list(DEPTHS),
+            "n_per_depth": N_PER_DEPTH,
+            "n_multihop": N_MULTIHOP,
+            "n_distractors": N_DISTRACTORS,
+            "seed": SEED,
+            "decoding": "greedy",
+            "max_new_tokens": 12,
+        },
+        "rows": portable,
+    }
+    write_lf(CACHE, json.dumps(payload, indent=2, sort_keys=True) + "\n")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", default=DEFAULT_MODEL)
@@ -73,6 +108,7 @@ def main() -> int:
     print(f"advertised context: {info.advertised_context}, rope_theta {info.rope_theta}")
 
     rows: list[dict] = []
+    done: list[int] = []
     for target in LENGTHS:
         # Calibrate each task separately: the two prompts have different
         # boilerplate and different planted lines, so equal filler counts
@@ -126,26 +162,11 @@ def main() -> int:
             )
             print(f"  multi tok={n_in} -> {rows[-1]['correct']}", flush=True)
 
-    RESULTS.mkdir(exist_ok=True)
+        # Checkpoint. A kill during a later tier now costs only that tier.
+        done.append(target)
+        save_cache(info, rows, done)
+        print(f"[{target}] checkpointed {len(rows)} rows", flush=True)
 
-    # Committed artifact: scores only, latency stripped.
-    portable = [{k: v for k, v in r.items() if k != "latency_s"} for r in rows]
-    payload = {
-        "schema": 1,
-        "model": asdict(info),
-        "config": {
-            "lengths": list(LENGTHS),
-            "depths": list(DEPTHS),
-            "n_per_depth": N_PER_DEPTH,
-            "n_multihop": N_MULTIHOP,
-            "n_distractors": N_DISTRACTORS,
-            "seed": SEED,
-            "decoding": "greedy",
-            "max_new_tokens": 12,
-        },
-        "rows": portable,
-    }
-    write_lf(CACHE, json.dumps(payload, indent=2, sort_keys=True) + "\n")
     print(f"wrote {CACHE}")
 
     lines = [
