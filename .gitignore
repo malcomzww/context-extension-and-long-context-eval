@@ -11,3 +11,7 @@ build/
 .env.*
 !.env.example
 .DS_Store
+
+# Wall-clock timings from whichever machine ran the eval. Not portable, so
+# not committed -- the drift gate byte-compares and latency would never match.
+results/eval-raw.md
