@@ -376,15 +376,58 @@ def write_context() -> None:
         add("scorer -- so the separation is attributable to composition, not to")
         add("task presentation.")
         add("")
-        add("This is the sense in which NIAH overstates effective context. Reading")
-        add(f"the NIAH row alone, this model looks fine at {r['n']:,} tokens. It is")
-        add("not fine at that length for any task that has to use two facts")
-        add("together, and 'use two facts together' describes most real long-context")
-        add("work: reconciling a figure against its footnote, following a reference")
-        add("into another section, answering anything a summary does not already")
-        add("state.")
+        add("This is the sense in which NIAH overstates effective context: reading")
+        add(f"the NIAH row alone, this model looks fine at {r['n']:,} tokens, and it")
+        add("is not fine at that length for any task that has to use two facts")
+        add("together -- which describes most real long-context work: reconciling a")
+        add("figure against its footnote, following a reference into another")
+        add("section, answering anything a summary does not already state.")
+        add("")
+        add("What that does **not** yet say is *why*. Two explanations predict the")
+        add("same table -- positional information degrading with length, or the task")
+        add("simply being beyond this model at any length -- and they license very")
+        add("different conclusions. The next section separates them from the data.")
         add("")
         assert r["mhi"] < r["nlo"], "disjoint-CI claim requires non-overlapping intervals"
+
+        # The distinction that decides what the gap means. If the separation is
+        # already present at the shortest length measured, then context length
+        # is not what produced it -- the task is simply harder, and this model
+        # cannot do it anywhere. Saying "NIAH overstates effective context"
+        # would then be true of the *instrument* while saying nothing about
+        # positional degradation. Derived from the data, not asserted, because
+        # either outcome is a legitimate result and the file must say which.
+        shortest = summary[0]
+        floor_at_shortest = shortest["multi"] < PASS
+        add("### Is this a context effect or a task-difficulty floor?")
+        add("")
+        if floor_at_shortest:
+            add(f"**A floor, mostly.** At the shortest length measured "
+                f"({shortest['n']:,} tokens) multi-hop already scores "
+                f"{fmt_pct(shortest['multi'])} -- below the {fmt_pct(PASS)} bar -- "
+                "while")
+            add(f"NIAH scores {fmt_pct(shortest['niah'])}. At {shortest['n']:,} tokens")
+            add("context length is not plausibly the binding constraint, so most of")
+            add("the deficit is this model being unable to compose two facts *at any")
+            add("length*, not positional information degrading.")
+            add("")
+            add("That makes the honest claim narrower than the headline usually is.")
+            add("What this sweep establishes is that **NIAH and two-hop retrieval")
+            add("measure different things, and a passing NIAH score does not license")
+            add("any claim about composition** -- not that this model's positional")
+            add("encoding fails somewhere between the two. Distinguishing those needs")
+            add("a model that clears the two-hop bar at short context, so that the")
+            add("length at which it stops clearing it is measurable. A 0.5B")
+            add("checkpoint does not, and no amount of sweeping fixes that.")
+            add("")
+        else:
+            add(f"**A context effect.** At the shortest length measured "
+                f"({shortest['n']:,} tokens) multi-hop scores "
+                f"{fmt_pct(shortest['multi'])}, clearing the {fmt_pct(PASS)} bar,")
+            add("so the model demonstrably can compose two facts when the context is")
+            add("short. The later collapse is therefore attributable to length rather")
+            add("than to the task being beyond the model outright.")
+            add("")
     else:
         add("**No length in this sweep shows NIAH passing while multi-hop fails with")
         add("non-overlapping confidence intervals.** The honest report is that this")

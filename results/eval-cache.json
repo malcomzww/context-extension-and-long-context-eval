@@ -1,0 +1,415 @@
+{
+  "config": {
+    "decoding": "greedy",
+    "depths": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "lengths": [
+      1024,
+      2048
+    ],
+    "max_new_tokens": 12,
+    "n_distractors": 4,
+    "n_multihop": 12,
+    "n_per_depth": 4,
+    "seed": 0
+  },
+  "model": {
+    "advertised_context": 32768,
+    "dtype": "float32",
+    "head_dim": 64,
+    "n_layers": 24,
+    "name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+    "rope_theta": 1000000.0
+  },
+  "rows": [
+    {
+      "actual_tokens": 1051,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1036,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1039,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1053,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1045,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1060,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1041,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1048,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1041,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1051,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1045,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1040,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 1024,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 1052,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1036,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1047,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1066,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1058,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1047,
+      "bridge_found": 1.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1063,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1062,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1056,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1051,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1054,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 1047,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 1024,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2067,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2042,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2040,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2082,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.1,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2060,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2088,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2051,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2061,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.5,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2055,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2073,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2066,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2037,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": 0.9,
+      "target_tokens": 2048,
+      "task": "niah"
+    },
+    {
+      "actual_tokens": 2073,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2049,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2042,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2092,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2073,
+      "bridge_found": 0.0,
+      "correct": 1.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2059,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2083,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2078,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2074,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2066,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2063,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    },
+    {
+      "actual_tokens": 2070,
+      "bridge_found": 0.0,
+      "correct": 0.0,
+      "depth": -1.0,
+      "target_tokens": 2048,
+      "task": "multihop"
+    }
+  ],
+  "schema": 1
+}
