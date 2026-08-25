@@ -344,16 +344,22 @@ def write_context() -> None:
     add("| definition | length | fraction of advertised |")
     add("|---|---|---|")
     add(f"| advertised (`max_position_embeddings`) | {advertised:,} | 100% |")
-    add(f"| longest length where NIAH passes | {niah_eff:,} | "
-        f"{100 * niah_eff / advertised:.1f}% |")
-    add(f"| longest length where multi-hop passes | {multi_eff:,} | "
-        f"{100 * multi_eff / advertised:.1f}% |")
+    # "never passes" rather than "0 tokens": a task that fails at the shortest
+    # length measured has no effective context to report, and printing 0 would
+    # read as a measured boundary rather than an absence of one.
+    def eff_cell(v: int) -> str:
+        if v == 0:
+            return "| never passes | n/a |"
+        return f"| {v:,} | {100 * v / advertised:.1f}% |"
+
+    add(f"| longest length where NIAH passes {eff_cell(niah_eff)}")
+    add(f"| longest length where multi-hop passes {eff_cell(multi_eff)}")
     add("")
-    add(f"Both are upper bounds capped by the sweep: {max(lengths):,} tokens was the")
-    add("longest length run, so a task still passing there is reported as passing")
-    add(f"at {max(lengths):,}, not as passing at {advertised:,}. The honest reading")
-    add("is 'at least this far', and for the advertised figure the sweep says")
-    add("nothing at all about the region above 8k.")
+    add(f"Both are bounded by the sweep: {max(lengths):,} tokens was the longest")
+    add("length run, so a task still passing there is reported as passing at")
+    add(f"{max(lengths):,} -- not as passing at {advertised:,}. The honest reading is")
+    add(f"'at least this far'. Above {max(lengths):,} tokens this sweep says nothing")
+    add("at all, in either direction.")
     add("")
 
     # --- the finding
@@ -481,8 +487,8 @@ def write_context() -> None:
     add("  disjoint-CI claim only where the gap is large.")
     add(f"- The sweep stops at {max(lengths):,} tokens against a {advertised:,}-token")
     add("  advertised window. CPU prefill is the binding constraint. Nothing here")
-    add("  measures the 8k-32k region, and no value in this file is extrapolated")
-    add("  into it.")
+    add(f"  measures the {max(lengths):,}-{advertised:,} region, and no value in this")
+    add("  file is extrapolated into it.")
     add("- Synthetic filler. Real documents have topical structure a model can")
     add("  navigate; uniform filler removes that, which makes both tasks harder")
     add("  than their real-world equivalents in the same direction.")
